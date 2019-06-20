@@ -18,6 +18,8 @@ domainname=$(grep "search" /etc/resolv.conf | cut -d' ' -f2 | cut -d',' -f1)
 DNS_A_RECORD=${hostshortname}.${domainname}
 DNS_CNAME_RECORD=${DEPLOYMENT_NAME}.${domainname}
 
+exit 0
+
 if ! host ${DNS_A_RECORD} > /dev/null 2>&1 ; then
   echo -e "update add ${DNS_A_RECORD} 86400 A ${hostip}\nsend" | nsupdate
   [ ! $? -eq 0 ] && agentSendLogMessage "DNS A Record Addition FAILED: ${DNS_A_RECORD} => ${hostip}" && exit 1
